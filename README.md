@@ -19,7 +19,7 @@ Game yang diminta Asisten untuk Tugas Besar IF2212. Rawarwrarawara, I eat your b
 
 1. Lakukan clone repository dengan terminal menggunakan command berikut ""git clone https://github.com/jackund25/OOPKel7.git""
 2. Buka ke cmd atau terminal dan masuk ke directory clone
-   "cd <lokasi directory>/Tubes-OOP-Kelompok-7"
+   "cd <lokasi directory>/OOPKel7"
 3. Jalankan program dengan command berikut
    ".\gradlew build"
    ".\gradlew run"
