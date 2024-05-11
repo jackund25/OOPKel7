@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gradlepvzkelompok7.GameLoopTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-05-11T15:15:09" hostname="DESKTOP-4POR5EK" time="0.022">
+  <properties/>
+  <testcase name="testPrint()" classname="gradlepvzkelompok7.GameLoopTest" time="0.022"/>
+  <system-out><![CDATA[Gacorrrrrrrrrr
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

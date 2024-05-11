@@ -21,7 +21,8 @@ Game yang diminta Asisten untuk Tugas Besar IF2212. Rawarwrarawara, I eat your b
 2. Buka ke cmd atau terminal dan masuk ke directory clone
    "cd <lokasi directory>/Tubes-OOP-Kelompok-7"
 3. Jalankan program dengan command berikut
-   "java -cp ./out/production/Tubes-OOP-Kelompok-7/game.Main"
+   ".\gradlew build"
+   ".\gradlew run"
 
 #### Alternatif 2
 
