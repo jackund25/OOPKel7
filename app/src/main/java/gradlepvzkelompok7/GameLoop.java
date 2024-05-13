@@ -2,7 +2,7 @@ package gradlepvzkelompok7;
 
 public class GameLoop {
     private boolean gameRunning;
-    private final long tickInterval = 3000; //bisa diganti" kalo lagi mau ngecek biar cepet, intervalnya direndahin
+    private final long tickInterval = 5000; //bisa diganti" kalo lagi mau ngecek biar cepet, intervalnya direndahin
     private GameMap gameMap;
 
     public GameLoop() {

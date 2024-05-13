@@ -1,7 +1,7 @@
 package gradlepvzkelompok7;
 
 
-public class PoleVaultingZombie extends Zombie{
+public class PoleVaultingZombie extends Zombie implements Jumping{
     private boolean hasJumped = false;
 
     public PoleVaultingZombie() {

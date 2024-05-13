@@ -1,5 +1,36 @@
-# Ignore Gradle project-specific cache directory
-.gradle
+# Gradle files
+.gradle/
+build/
 
-# Ignore Gradle build output directory
-build
+# Exclude specific Gradle caches and logs
+.gradle/**/file-system.probe
+.gradle/**/executionHistory.*
+.gradle/**/fileHashes.*
+.gradle/**/resourceHashesCache.*
+.gradle/**/buildOutputCleanup.*
+.gradle/**/outputFiles.*
+.gradle/**/previous-compilation-data.*
+
+# Exclude build outputs
+app/build/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Other files
+*.log
+*.bak
+*.swp
+*.tmp
+
+# OS generated files
+.DS_Store
+Thumbs.db

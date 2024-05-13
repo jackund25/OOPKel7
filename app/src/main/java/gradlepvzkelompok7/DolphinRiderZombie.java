@@ -1,6 +1,6 @@
 package gradlepvzkelompok7;
 
-public class DolphinRiderZombie extends Zombie {
+public class DolphinRiderZombie extends Zombie implements Jumping {
     private boolean hasJumped = false;
 
     public DolphinRiderZombie() {

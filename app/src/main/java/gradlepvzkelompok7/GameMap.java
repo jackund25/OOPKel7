@@ -37,7 +37,6 @@ public class GameMap {
 
 
     public void updateTiles() {
-        //mastiin semua zombie pada awalnya belum gerak
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 for (Zombie zombie : tiles[i][j].getZombies()) {
@@ -53,11 +52,31 @@ public class GameMap {
                 List<Zombie> zombiesToMove = new ArrayList<>();
                 // cek zombie di tile yang ada tile[i][j] yang lagi ada di tahap loop
                 for (Zombie zombie : new ArrayList<>(currentTile.getZombies())) { //pake new arraylist<> buat ngecopy isinya biar ga langsung ngemodifikasi si tilesnya 
-                    if (!zombie.hasMoved() && !currentTile.hasPlant()) {
+                    if (!zombie.hasMoved()) {
+                        // logic buat zombie yang bisa jump
+                        if (zombie instanceof Jumping && !((Jumping) zombie).hasJumped() && leftTile.hasPlant() ) {
+                            if (j - 2 >= 0) {
+                                Tile landingTile = tiles[i][j - 2];
+                                Plant jumpedPlant = leftTile.getPlant();
+                                landingTile.placeZombie(zombie);
+                                currentTile.removeZombie(zombie);
+                                System.out.println(zombie + "landed on " + i + "," + (j-2) + "and killed plant on " + i + "," + (j-1));
+                                ((Jumping) zombie).setHasJumped(true);
+                                zombie.setHasMoved(true); //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
+                                if (jumpedPlant != null) {
+                                    jumpedPlant.takeDamage(jumpedPlant.getHealth()); // plant yang dilompatin mati
+                                    leftTile.removePlant();
+                                }}}
+
                         // Normal movement: kalo ga ada plant di tile yang sama ama zombie gerakin ke kiri
-                        zombiesToMove.add(zombie);
-                        zombie.setHasMoved(true);} //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
+                        else if (!currentTile.hasPlant()) {
+                            zombiesToMove.add(zombie);
+                            zombie.setHasMoved(true);} //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
+ 
+                    }
                 }
+
+                
     
                 // zombie yang uda dimasukin ke arraylist baru digerakin
                 for (Zombie zombie : zombiesToMove) {
@@ -162,19 +181,43 @@ public class GameMap {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Tile tile = tiles[i][j];
+    
                 if (tile.hasZombie() && tile.getPlant() != null) {
-                    System.out.print("\u001B[31mF \u001B[0m");  // kode ANSI "F" merah kalo fighting
+                    System.out.print("\u001B[31mF \u001B[0m");  //kode ansi F merah kalo lg fighting
                 } else if (tile.hasZombie()) {
-                    System.out.print("Z ");  // kalo tilenya ada zombie
+                    int zombieCount = tile.getZombies().size();
+                    switch (zombieCount) {
+                        case 1:
+                            System.out.print("Z ");  // regular Z kalo 1 zombie
+                            break;
+                        case 2:
+                            System.out.print("\u001B[32mZ \u001B[0m");  // Z ijo kalo 2 zombie
+                            break;
+                        case 3:
+                            System.out.print("\u001B[33mZ \u001B[0m");  // Z kuning kalo 3 zombie
+                            break;
+                        case 4:
+                            System.out.print("\u001B[34mZ \u001B[0m");  // Z biru kalo 4 zombie
+                            break;
+                        default:
+                            System.out.print("\u001B[35mZ \u001B[0m");  // Z magenta kalo lebi dari 4
+                            break;
+                    }
+                } else if (tile.getPlant() != null && tile instanceof WaterTile && ((WaterTile) tile).isLilyPlanted()) {
+                    System.out.print("\u001B[34mP \u001B[0m");  // P biru kalo plant yang diplant di lilypad
                 } else if (tile instanceof WaterTile) {
-                    System.out.print("W ");  // kalo tilenya water
+                    if (((WaterTile) tile).isLilyPlanted()) {
+                        System.out.print("\u001B[32mL \u001B[0m");  // L ijo kalo ada lilypad di watertile
+                    } else {
+                        System.out.print("\u001B[34m. \u001B[0m");  // . biru kalo watertile
+                    }
                 } else if (tile.getPlant() != null) {
-                    System.out.print("P ");  // kalo tilenya ada plant
+                    System.out.print("P ");  // P biasa kalo ada plant di groundtile
                 } else {
-                    System.out.print(". ");  // kalo ground tile kosong
+                    System.out.print(". ");  // empty tile
                 }
             }
-            System.out.println(); 
+            System.out.println();  // New line at the end of each row
         }
     }
     
