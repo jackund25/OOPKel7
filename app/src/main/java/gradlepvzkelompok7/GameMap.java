@@ -93,12 +93,31 @@ public class GameMap {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Tile currentTile = tiles[i][j];
-                if (currentTile.hasZombie() && currentTile.hasPlant()) {
-                    Plant plant = currentTile.getPlant();
-                    List<Zombie> zombies = currentTile.getZombies();
-                    for (Zombie zombie : zombies) {
-                        if (!plant.isDead()&& zombie.canAttack()) {
-                            System.out.println(zombie.getName() + "attacking plant at tile (" + i + ", " + j + ")");
+                List<Zombie> zombies = currentTile.getZombies();
+                for (Zombie zombie : zombies) {
+                    //handle gargantuar yang lempar lembing
+                    if (zombie instanceof GargantuarZombie && ((GargantuarZombie)zombie).isReadyToThrow()) {
+                        GargantuarZombie gargantuar = (GargantuarZombie) zombie;
+                        if (gargantuar.isReadyToThrow()) {
+                            boolean plantHit = false;
+                            for (int k = 1; k < j; k++) {
+                                if (tiles[i][k].getPlant() != null) {
+                                    System.out.println("Javelin hits and destroys the plant at (" + i + ", " + k + ")");
+                                    tiles[i][k].removePlant();
+                                    plantHit = true;
+                                    gargantuar.setHasThrownJavelin(true); //biar ga ngelempar lagi
+                                    break;
+                                }
+                            }
+                            if (!plantHit) {
+                                System.out.println("Javelin missed! No plant in the range.");
+                            }
+                        }
+                    //attack zombie biasa
+                    } else if (currentTile.hasPlant()) {
+                        Plant plant = currentTile.getPlant();
+                        if (!plant.isDead() && zombie.canAttack()) {
+                            System.out.println(zombie.getName() + " attacking plant at tile (" + i + ", " + j + ")");
                             zombie.zombieAttack(plant);
                         }
                     }
