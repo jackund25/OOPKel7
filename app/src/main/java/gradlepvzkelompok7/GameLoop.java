@@ -25,38 +25,41 @@ public class GameLoop {
     }
 
     public void startGame() {
-        long lastMoveTime = System.currentTimeMillis();
         long lastSpawnTime = System.currentTimeMillis();
-
-        gameMap.printMap();
-
+        long lastPrintTime = System.currentTimeMillis();
+    
+        gameMap.printMap(); // Initial map print
+    
         while (gameRunning) {
             long currentTime = System.currentTimeMillis();
-            //long elapsedTime = currentTime - lastUpdateTime;
-
-            if (currentTime - lastMoveTime >= 5000) { //stiap 5 sec jalaninzombi, printmap
-                clearConsole();
-                gameMap.updateTiles();
-                gameMap.printMap();
-
-
-                lastMoveTime = currentTime; 
-            }
-
-        
-            if (currentTime - lastSpawnTime >= 1000) { // stiap 1 sec spawn jombi
+    
+            // zombi spawn stiap 1 detik
+            if (currentTime - lastSpawnTime >= 1000) {
                 gameMap.spawnZombies();
-                lastSpawnTime = currentTime;
+                lastSpawnTime = currentTime; // update time
+            }
+    
+            gameMap.updateTiles();
+
+            //ngeprint map stiap 1 detik
+            if (currentTime - lastPrintTime >= 1000) {
+                clearConsole();
+                gameMap.printMap();
+                lastPrintTime = currentTime; // //update time
             }
 
-            gameMap.updatePlantAttacks();
-            gameMap.updateZombieAttacks();
-            gameMap.removeDeadEntities();
+    
+            // yg dilakukan terus"an karena logic waktu ud di dalem method yg dipanggil 
+            gameMap.updatePlantAttacks();    // plant attack zombi
+            gameMap.updateZombieAttacks();   // zombie attack plant
+            gameMap.removeDeadEntities();    
+    
 
-            // disini nanti nambahin kondisi game over
 
+    
+            // disini nanti nambahin kondisi gameover
             try {
-                Thread.sleep(100); // sleep biar cpu nya ga keberatan
+                Thread.sleep(100); // sleep
             } catch (InterruptedException e) {
                 System.out.println("Game loop was interrupted.");
                 gameRunning = false;

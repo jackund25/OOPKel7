@@ -40,13 +40,7 @@ public class GameMap {
 
 
     public void updateTiles() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                for (Zombie zombie : tiles[i][j].getZombies()) {
-                    zombie.setHasMoved(false);
-                }
-            }
-        }
+        long currentTime = System.currentTimeMillis();
         
         for (int i = 0; i < height; i++) {
             for (int j = width - 1; j > 0; j--) {
@@ -55,7 +49,7 @@ public class GameMap {
                 List<Zombie> zombiesToMove = new ArrayList<>();
                 // cek zombie di tile yang ada tile[i][j] yang lagi ada di tahap loop
                 for (Zombie zombie : new ArrayList<>(currentTile.getZombies())) { //pake new arraylist<> buat ngecopy isinya biar ga langsung ngemodifikasi si tilesnya 
-                    if (!zombie.hasMoved()) {
+                    if (zombie.canMove(currentTime)) {
                         // logic buat zombie yang bisa jump
                         if (zombie instanceof Jumping && !((Jumping) zombie).hasJumped() && leftTile.hasPlant() ) {
                             if (j - 2 >= 0) {
@@ -64,17 +58,23 @@ public class GameMap {
                                 landingTile.placeZombie(zombie);
                                 currentTile.removeZombie(zombie);
                                 System.out.println(zombie + "landed on " + i + "," + (j-2) + "and killed plant on " + i + "," + (j-1));
+                                if (leftTile instanceof WaterTile) {
+                                    ((WaterTile)leftTile).setLilyPlanted(false);
+                                    
+                                }
                                 ((Jumping) zombie).setHasJumped(true);
-                                zombie.setHasMoved(true); //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
+                                zombie.updateNextMoveTime(currentTime); //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
                                 if (jumpedPlant != null) {
                                     jumpedPlant.takeDamage(jumpedPlant.getHealth()); // plant yang dilompatin mati
                                     leftTile.removePlant();
-                                }}}
+                                }
+                            }
+                        }
 
                         // Normal movement: kalo ga ada plant di tile yang sama ama zombie gerakin ke kiri
                         else if (!currentTile.hasPlant()) {
                             zombiesToMove.add(zombie);
-                            zombie.setHasMoved(true);} //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
+                            zombie.updateNextMoveTime(currentTime);} //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
  
                     }
                 }
@@ -136,7 +136,7 @@ public class GameMap {
                 Tile tile = tiles[i][j];
                 if (tile.getPlant() != null && tile.getPlant().canAttack()) {
                     List<Zombie> targetZombies = getZombiesInRange(i, j, tile.getPlant().getRange());
-                    tile.getPlant().attack(targetZombies);
+                    tile.getPlant().plantAttack(targetZombies);
                 }
             }
         }

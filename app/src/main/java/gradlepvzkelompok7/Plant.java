@@ -14,7 +14,7 @@ public abstract class Plant extends Creature {
         this.cooldown = cooldown;
     }
 
-    public void attack(List<Zombie> targetZombies) {
+    public void plantAttack(List<Zombie> targetZombies) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastAttackTime >= attackSpeed * 1000) {
             for (Zombie zombie : targetZombies) {
