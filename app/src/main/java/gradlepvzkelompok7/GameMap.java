@@ -2,6 +2,7 @@ package gradlepvzkelompok7;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Iterator;
 
 
@@ -9,6 +10,8 @@ public class GameMap {
     private Tile[][] tiles;
     private int width = 11; 
     private int height = 6; 
+    private int currentZombieCount = 0;
+    private static final int MAX_ZOMBIES = 10;
 
     public GameMap(int width,int height) {
         tiles = new Tile[height][width];
@@ -148,9 +151,13 @@ public class GameMap {
             if (entity.isDead()) {
                 iterator.remove();
                 if (entity instanceof Plant) {
+                    if (tiles[row][col].isWater()) {
+                        ((WaterTile)tiles[row][col]).setLilyPlanted(false); //sekalian ngedelete lilypad soalnya logicnya kan hp lily ditambah ke plant diatasnya
+                    }
                     tiles[row][col].removePlant();
                 } else if (entity instanceof Zombie) {
                     tiles[row][col].removeZombie((Zombie) entity);
+                    removeZombieCount();
                 }
                 System.out.println(entity.getClass().getSimpleName() + " at tile (" + row + ", " + col + ") has died and been removed.");
             }
@@ -239,7 +246,43 @@ public class GameMap {
             System.out.println();  // New line at the end of each row
         }
     }
+
+    public void spawnZombies() {
+        // Random random = new Random();
+        // if (random.nextDouble() < 0.3) { //30% chance buat spawnzombie
+            for (int i = 0; i < height; i++) {
+                boolean appropriateForTile = false;
+                Random random = new Random();
+                    if (random.nextDouble() < 0.3) { //30% chance buat spawnzombie
+                    if (currentZombieCount >= MAX_ZOMBIES) break; 
+                    
+                    Tile spawnTile = tiles[i][width - 1]; // spawn tilenya adalah tile paling kiri di gamemap
+                    int zombieType = random.nextInt(10); // random int buat nentuin zombie mana yg dispawn
+                    
+                    //mastiin si aquatic zombie cuma bisa spawn di yang air
+                    if (spawnTile instanceof WaterTile) {
+                        if (zombieType == 8 || zombieType == 9) {
+                            appropriateForTile = true;
+                        }
+                    } else {
+                        //sebaliknya
+                        if (zombieType != 8 && zombieType != 9) {
+                            appropriateForTile = true;
+                        }
+                    }
+                    if (appropriateForTile) {
+                        Zombie zombie = ZombieFactory.createZombie(zombieType);
+                        spawnTile.placeZombie(zombie);
+                        currentZombieCount++;
+                        System.out.println("Spawned " + zombie.getClass().getSimpleName() + " at row " + i);
+                }
+            }
+        }
+    }
     
+    public void removeZombieCount() {
+        currentZombieCount--;
+    }
 
     
 
