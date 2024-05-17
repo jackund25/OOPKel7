@@ -20,8 +20,6 @@ public class Snowpea extends Plant{
                 }
             }
             lastAttackTime = currentTime;
-
-    }
-    
+    }  
 }
 }
