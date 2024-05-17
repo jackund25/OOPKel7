@@ -6,7 +6,7 @@ Game yang diminta Asisten untuk Tugas Besar IF2212. Rawarwrarawara, I eat your b
 
 ## **Anggota Kelompok**
 
-| Nama     | NIM                  |
+| NIM      | Nama                 |
 | -------- | -------------------- |
 | 18222003 | Daffari Adiyatma     |
 | 18222019 | Jonathan Wiguna      |
