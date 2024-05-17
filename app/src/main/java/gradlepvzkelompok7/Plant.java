@@ -6,12 +6,14 @@ public abstract class Plant extends Creature {
     protected int cost;
     protected int range;
     protected int cooldown;
+    protected boolean harvested;
 
     public Plant(String name, int health, int attackDamage, long attackSpeed, boolean isAquatic, int cost, int range, int cooldown) {
         super(name, health, attackDamage, attackSpeed, isAquatic);
         this.cost = cost;
         this.range = range;
         this.cooldown = cooldown;
+        this.harvested = false;
     }
 
     public void plantAttack(List<Zombie> targetZombies) {
@@ -59,8 +61,22 @@ public abstract class Plant extends Creature {
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }  
+    public boolean isHarvested() {
+        return harvested;
+    }
 
-    
+    public void setHarvested(boolean harvested) {
+        this.harvested = harvested;
+    }
+    public void harvest() {
+        if (!harvested) {
+            // Perform harvesting action
+            harvested = true;
+        } else {
+            System.out.println("This plant's spot is already empty.");
+        }
+    }
+
 
 }
 
