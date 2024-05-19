@@ -6,14 +6,18 @@ public abstract class Plant extends Creature {
     protected int cost;
     protected int range;
     protected int cooldown;
+    protected boolean harvested;
 
+    // Konstruktor untuk inisialisasi objek Plant dengan nilai atribut yang telah ditentukan
     public Plant(String name, int health, int attackDamage, long attackSpeed, boolean isAquatic, int cost, int range, int cooldown) {
         super(name, health, attackDamage, attackSpeed, isAquatic);
         this.cost = cost;
         this.range = range;
         this.cooldown = cooldown;
+        this.harvested = false;
     }
 
+    // Method untuk menyerang zombie
     public void plantAttack(List<Zombie> targetZombies) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastAttackTime >= attackSpeed * 1000) {
@@ -22,20 +26,20 @@ public abstract class Plant extends Creature {
                     zombie.takeDamage(attackDamage);
                 }
             }
-            lastAttackTime = currentTime; // update lastattacktime 
+            lastAttackTime = currentTime; // update waktu serangan terakhir
         }
     }
-
 
     @Override
     public boolean canAttack() {
         if (attackDamage == 0) return false;
         long currentTime = System.currentTimeMillis();
-        // cek waktu yang uda lewat uda mencukupi belum buat ngeattack lagi
+        // cek apakah waktu yang telah berlalu cukup untuk menyerang lagi
         long elapsed = currentTime - lastAttackTime;
         return elapsed >= (attackSpeed * 1000);
     }
 
+    // Getter dan setter untuk cost
     public int getCost() {
         return cost;
     }
@@ -44,6 +48,7 @@ public abstract class Plant extends Creature {
         this.cost = cost;
     }
 
+    // Getter dan setter untuk range
     public int getRange() {
         return range;
     }
@@ -52,6 +57,7 @@ public abstract class Plant extends Creature {
         this.range = range;
     }
 
+    // Getter dan setter untuk cooldown
     public int getCooldown() {
         return cooldown;
     }
@@ -59,8 +65,24 @@ public abstract class Plant extends Creature {
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }  
-
     
+    // Getter dan setter untuk harvested
+    public boolean isHarvested() {
+        return harvested;
+    }
 
+    public void setHarvested(boolean harvested) {
+        this.harvested = harvested;
+    }
+
+    // Method untuk memanen tanaman
+    public void harvest() {
+        if (!harvested) {
+            // Lakukan aksi panen
+            harvested = true;
+        } else {
+            System.out.println("This plant's spot is already empty.");
+        }
+    }
 }
 

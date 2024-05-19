@@ -60,4 +60,17 @@ public class Inventory {
     public List<Plant> getDeck() {
         return new ArrayList<>(deck);
     }
+
+    public void harvest(int index, Tile tile) {
+        if (index >= 0 && index < deck.size()) {
+            Plant plant = deck.get(index);
+            if (!plant.isHarvested()) {
+                tile.removePlant();
+            } else {
+                System.out.println("This plant's spot is already empty.");
+            }
+        } else {
+            System.out.println("Invalid plant index.");
+        }
+    }
 }
