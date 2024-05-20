@@ -1,9 +1,19 @@
 package gradlepvzkelompok7;
 
-public class Jalapeno extends Plant {
+import java.util.List;
 
-    // Konstruktor untuk inisialisasi objek Jalapeno dengan nilai atribut yang telah ditentukan
-    public Jalapeno() {
-        super("Jalapeno", 50, 0, 0, false, 125, 0, 50);
+public class Jalapeno extends Plant {
+    public Jalapeno(){
+        super("Jalapeno", 100, 5000, 1, false, 150, -1, 20);
     }
+
+    @Override
+    public void plantAction(List<Zombie> targetZombies) {
+        System.out.println(this.getName() + " is performing a row-wide kamikaze attack!");
+        for (Zombie zombie : targetZombies) {
+            zombie.takeDamage(this.attackDamage);  
+        }
+        this.health = 0;  // automatis mati
+    }
+    
 }

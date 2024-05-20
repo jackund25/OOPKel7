@@ -12,6 +12,12 @@ public class GameMap {
     private int height = 6; 
     private int currentZombieCount = 0;
     private static final int MAX_ZOMBIES = 10;
+    private static final int MAX_FLAG_ZOMBIES = 25;
+    private int gameTime = 0; 
+    private boolean isFlagDay = false;
+    private int availableSun = 50;
+    private int dayCount = 1;
+    private boolean gameOver = false;
 
     public GameMap(int width,int height) {
         tiles = new Tile[height][width];
@@ -38,6 +44,33 @@ public class GameMap {
         return null;
     }
 
+    public void canPlacePlant(Plant plant, int sunCost, int x, int y) throws IllegalArgumentException {
+        if (availableSun < sunCost) {
+            throw new IllegalArgumentException("Insufficient sun");
+        }
+    
+        Tile targetTile = tiles[x][y];
+        try {
+            targetTile.placePlant(plant); 
+            availableSun -= sunCost; 
+        } catch (Exception ex) {
+            // rethrow exceiption
+            throw ex;
+        }
+    }
+
+    public void updateGame() {
+
+        updateTiles();
+        updatePlantActions();
+        updateZombieAttacks();
+        removeDeadEntities();
+        if (reachedEndTile() || (gameTime > 30 && currentZombieCount == 0)){
+            gameOver = true;
+            
+        }
+    }
+
 
     public void updateTiles() {
         long currentTime = System.currentTimeMillis();
@@ -54,19 +87,19 @@ public class GameMap {
                         if (zombie instanceof Jumping && !((Jumping) zombie).hasJumped() && leftTile.hasPlant() ) {
                             if (j - 2 >= 0) {
                                 Tile landingTile = tiles[i][j - 2];
-                                Plant jumpedPlant = leftTile.getPlant();
+                                Plant targetPlant = landingTile.getPlant();
                                 landingTile.placeZombie(zombie);
                                 currentTile.removeZombie(zombie);
-                                System.out.println(zombie + "landed on " + i + "," + (j-2) + "and killed plant on " + i + "," + (j-1));
-                                if (leftTile instanceof WaterTile) {
-                                    ((WaterTile)leftTile).setLilyPlanted(false);
+                                System.out.println(zombie + "landed on " + i + "," + (j-2) + "and killed plant on " + i + "," + (j-2));
+                                if (landingTile instanceof WaterTile) {
+                                    ((WaterTile)landingTile).setLilyPlanted(false);
                                     
                                 }
                                 ((Jumping) zombie).setHasJumped(true);
                                 zombie.updateNextMoveTime(currentTime); //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
-                                if (jumpedPlant != null) {
-                                    jumpedPlant.takeDamage(jumpedPlant.getHealth()); // plant yang dilompatin mati
-                                    leftTile.removePlant();
+                                if (targetPlant != null) {
+                                    targetPlant.takeDamage(targetPlant.getHealth()); // plant yang dilompatin mati
+                                    landingTile.removePlant();
                                 }
                             }
                         }
@@ -130,13 +163,26 @@ public class GameMap {
     }
 
 
-    public void updatePlantAttacks() {
+    public void updatePlantActions() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Tile tile = tiles[i][j];
-                if (tile.getPlant() != null && tile.getPlant().canAttack()) {
-                    List<Zombie> targetZombies = getZombiesInRange(i, j, tile.getPlant().getRange());
-                    tile.getPlant().plantAttack(targetZombies);
+                Plant plant = tile.getPlant();
+                if (plant != null && plant.canPerformAction()) {
+                    if (plant instanceof Sunflower) {
+                        plant.plantAction(null); 
+                        availableSun += 25;
+                        System.out.println("Sunflower at (" + i + ", " + j + ") generated sun!");
+                    } else if (plant instanceof Jalapeno) {
+                        List<Zombie> allZombiesInRow = getAllZombiesInRow(i);
+                        plant.plantAction(allZombiesInRow);
+                        System.out.println("Jalapeno at (" + i + ", " + j + ") has exploded!");
+                    } else {
+                        List<Zombie> targetZombies = getZombiesInRange(i, j, plant.getRange());
+                        if (!targetZombies.isEmpty()) {
+                            plant.plantAction(targetZombies);
+                        }
+                    }
                 }
             }
         }
@@ -153,8 +199,11 @@ public class GameMap {
                 if (entity instanceof Plant) {
                     if (tiles[row][col].isWater()) {
                         ((WaterTile)tiles[row][col]).setLilyPlanted(false); //sekalian ngedelete lilypad soalnya logicnya kan hp lily ditambah ke plant diatasnya
+                        ((WaterTile)tiles[row][col]).removeAll();
                     }
+                    else {
                     tiles[row][col].removePlant();
+                    }
                 } else if (entity instanceof Zombie) {
                     tiles[row][col].removeZombie((Zombie) entity);
                     removeZombieCount();
@@ -189,7 +238,7 @@ public class GameMap {
                 }
             }
         } else {
-            // Search within the defined range for the first tile with zombies
+            // cari tile sesuai sama attackrange si plant terkait
             for (int j = plantCol; j <= plantCol + range; j++) {
                 if (tiles[plantRow][j].hasZombie()) {
                     zombiesInRange.addAll(tiles[plantRow][j].getZombies());
@@ -200,7 +249,13 @@ public class GameMap {
         return zombiesInRange;
     }
     
-
+    public List<Zombie> getAllZombiesInRow(int row) {
+        List<Zombie> zombiesInRow = new ArrayList<>();
+        for (int col = 0; col < width; col++) {
+            zombiesInRow.addAll(tiles[row][col].getZombies());
+        }
+        return zombiesInRow;
+    }
     
     
     public void printMap() {
@@ -210,7 +265,8 @@ public class GameMap {
     
                 if (tile.hasZombie() && tile.getPlant() != null) {
                     System.out.print("\u001B[31mF \u001B[0m");  //kode ansi F merah kalo lg fighting
-                } else if (tile.hasZombie()) {
+                } 
+                else if (tile.hasZombie()) {
                     int zombieCount = tile.getZombies().size();
                     switch (zombieCount) {
                         case 1:
@@ -229,64 +285,112 @@ public class GameMap {
                             System.out.print("\u001B[35mZ \u001B[0m");  // Z magenta kalo lebi dari 4
                             break;
                     }
-                } else if (tile.getPlant() != null && tile instanceof WaterTile && ((WaterTile) tile).isLilyPlanted()) {
+                } 
+                else if (tile.getPlant() != null && !tile.getPlant().getName().equals("Lilypad") && tile instanceof WaterTile) {
                     System.out.print("\u001B[34mP \u001B[0m");  // P biru kalo plant yang diplant di lilypad
-                } else if (tile instanceof WaterTile) {
+                } 
+                else if (tile instanceof WaterTile) {
                     if (((WaterTile) tile).isLilyPlanted()) {
                         System.out.print("\u001B[32mL \u001B[0m");  // L ijo kalo ada lilypad di watertile
                     } else {
                         System.out.print("\u001B[34m. \u001B[0m");  // . biru kalo watertile
                     }
-                } else if (tile.getPlant() != null) {
+                } 
+                else if (tile.getPlant() != null) {
                     System.out.print("P ");  // P biasa kalo ada plant di groundtile
-                } else {
+                } 
+                else {
                     System.out.print(". ");  // empty tile
                 }
             }
-            System.out.println();  // New line at the end of each row
+            System.out.println();  
         }
     }
 
     public void spawnZombies() {
-        // Random random = new Random();
-        // if (random.nextDouble() < 0.3) { //30% chance buat spawnzombie
+        if (gameTime >= 20 && gameTime <= 160) {
+
+            double spawnChance = isFlagDay ? 0.5 : 0.3;
             for (int i = 0; i < height; i++) {
                 boolean appropriateForTile = false;
                 Random random = new Random();
-                    if (random.nextDouble() < 0.3) { //30% chance buat spawnzombie
-                    if (currentZombieCount >= MAX_ZOMBIES) break; 
-                    
-                    Tile spawnTile = tiles[i][width - 1]; // spawn tilenya adalah tile paling kiri di gamemap
-                    int zombieType = random.nextInt(10); // random int buat nentuin zombie mana yg dispawn
-                    
-                    //mastiin si aquatic zombie cuma bisa spawn di yang air
-                    if (spawnTile instanceof WaterTile) {
-                        if (zombieType == 8 || zombieType == 9) {
-                            appropriateForTile = true;
+                    if (random.nextDouble() < spawnChance) { //30% chance buat spawnzombie
+                        if (currentZombieCount >= (isFlagDay ? MAX_FLAG_ZOMBIES : MAX_ZOMBIES)) break; 
+                        
+                        Tile spawnTile = tiles[i][width - 1]; // spawn tilenya adalah tile paling kiri di gamemap
+                        int zombieType = random.nextInt(10); // random int buat nentuin zombie mana yg dispawn
+                        
+                        //mastiin si aquatic zombie cuma bisa spawn di yang air
+                        if (spawnTile instanceof WaterTile) {
+                            if (zombieType == 8 || zombieType == 9) {
+                                appropriateForTile = true;
+                            }
+                        } else {
+                            //sebaliknya
+                            if (zombieType != 8 && zombieType != 9) {
+                                appropriateForTile = true;
+                            }
                         }
-                    } else {
-                        //sebaliknya
-                        if (zombieType != 8 && zombieType != 9) {
-                            appropriateForTile = true;
+                        if (appropriateForTile) {
+                            Zombie zombie = ZombieFactory.createZombie(zombieType);
+                            spawnTile.placeZombie(zombie);
+                            currentZombieCount++;
+                            System.out.println("Spawned " + zombie.getClass().getSimpleName() + " at row " + i);
                         }
-                    }
-                    if (appropriateForTile) {
-                        Zombie zombie = ZombieFactory.createZombie(zombieType);
-                        spawnTile.placeZombie(zombie);
-                        currentZombieCount++;
-                        System.out.println("Spawned " + zombie.getClass().getSimpleName() + " at row " + i);
                 }
             }
         }
     }
+
+    public void handleFlagEvents() {
+        isFlagDay = (dayCount > 1);
+        if (gameTime > 200) {
+             setGameTime(1);
+             dayCount += 1;
+        }
+
+    }
+
+    public boolean isFlagDay() {
+        return isFlagDay;
+    }
+
+    public void updateGameTime(int seconds) {
+        gameTime += seconds;
+        handleFlagEvents();
+    }
+
+    public void setGameTime(int gameTime) {
+        this.gameTime = gameTime;
+    }
+
+    public int getGameTime(){
+        return gameTime;
+    }
     
+    public boolean reachedEndTile(){
+        for(int i = 0; i < height;i++) {
+            if (getTile(i, 0).hasZombie()) {
+                return true;
+            } 
+        }
+        return false;
+    }
     public void removeZombieCount() {
         currentZombieCount--;
     }
 
     
+    public int getAvailableSun() {
+        return availableSun;
+    }
 
+    public void setAvailableSun(int availableSun) {
+        this.availableSun = availableSun;
+    }
 
-
+    public boolean gameOver(){
+        return gameOver;
+    }
 
 }

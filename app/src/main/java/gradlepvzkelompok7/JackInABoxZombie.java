@@ -7,14 +7,14 @@ public class JackInABoxZombie extends Zombie {
     
     @Override
     public void zombieAttack(Creature target) {
-        long currentTime = System.currentTimeMillis();  // Convert milliseconds to seconds
         if (canAttack()) {
             System.out.println("plant initial health = " + target.getHealth());
             target.takeDamage(attackDamage);
             this.health = 0; //kamikaze
             System.out.println(target.getName() + " taken damage " + attackDamage + ", " +target.getName() + " hp is now " + target.getHealth() + ", " + this.getName() + " suicide");
-            lastAttackTime = currentTime;  
+            nextAttackTime = 1000000;
         }
 
     }
 }
+

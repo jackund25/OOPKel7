@@ -1,10 +1,18 @@
 package gradlepvzkelompok7;
 
-public class TangleKelp extends Plant {
+import java.util.List;
 
-    // Konstruktor untuk inisialisasi objek TangleKelp dengan nilai atribut yang telah ditentukan
+public class TangleKelp extends Plant{
+
+
     public TangleKelp() {
-        super("Tangle Kelp", 50, 0, 0, true, 25, 0, 0);
+        super("Tangle kelp", 100, 5000, 0, true, 50, 1, 20);
     }
-
+    
+    @Override
+    public void plantAction(List<Zombie> targetZombies) {
+        super.plantAction(targetZombies);
+        this.health = 0;
+    }       
+  
 }

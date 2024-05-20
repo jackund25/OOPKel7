@@ -5,7 +5,7 @@ plugins {
 
 application {
     // Define the main class for the application.
-    mainClass = 'gradlepvzkelompok7.GameLoop' // Ensure this matches the actual package and class
+    mainClass = 'gradlepvzkelompok7.GameMenu' // Ensure this matches the actual package and class
 }
 
 repositories {
@@ -25,6 +25,11 @@ java {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+// Configure the existing 'run' task provided by the 'application' plugin
+tasks.named('run', JavaExec) {
+    standardInput = System.in // Redirects standard input to allow user input
 }
 
 sourceCompatibility = '21'

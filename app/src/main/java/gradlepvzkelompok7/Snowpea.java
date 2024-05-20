@@ -9,9 +9,9 @@ public class Snowpea extends Plant{
     }
 
     @Override
-    public void plantAttack(List<Zombie> targetZombies) {
+    public void plantAction(List<Zombie> targetZombies) {
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastAttackTime >= attackSpeed * 1000) {
+        if (currentTime  >= nextAttackTime) {
             for (Zombie zombie : targetZombies) {
                 if (!zombie.isDead()) {
                     zombie.takeDamage(attackDamage);
@@ -19,7 +19,7 @@ public class Snowpea extends Plant{
                     System.out.println("zombie is slowed");
                 }
             }
-            lastAttackTime = currentTime;
+            nextAttackTime = currentTime + attackSpeed * 1000;
 
     }
     

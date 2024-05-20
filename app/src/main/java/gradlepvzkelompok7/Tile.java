@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Tile {
-    private Plant plant;
-    private ArrayList<Zombie> zombies;
-    private boolean isWater;
+    protected Plant plant;
+    protected ArrayList<Zombie> zombies;
+    protected boolean isWater;
 
     public Tile(boolean isWater) {
         this.isWater = isWater;
@@ -57,8 +57,13 @@ public abstract class Tile {
         this.zombies.add(zombie);
     }
 
-    public void removePlant() {
-        this.plant = null;
+    public void removePlant() throws IllegalArgumentException {
+        if (hasPlant()) {
+            this.plant = null;
+        }
+        else{
+            throw new IllegalArgumentException("There's no plant to be removed");
+        }
     }
 
     public void removeZombie(Zombie zombie) {
@@ -75,4 +80,6 @@ public abstract class Tile {
         }
     }
 }
+
+
 

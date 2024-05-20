@@ -18,28 +18,50 @@ public class WaterTile extends Tile {
 
 
     @Override
-    public void placePlant(Plant plant) {
+    public void placePlant(Plant plant) throws IllegalArgumentException {
         if (plant.getName().equals("Lilypad")) {
+            if (isLilyPlanted()) {
+                throw new IllegalArgumentException("Lilypad already planted");
+            }
+            super.placePlant(plant);
+            setLilyPlanted(true);
+        } 
+        else {
             if (!isLilyPlanted()) {
-                super.placePlant(plant); 
-                setLilyPlanted(true);
-            } else {
-                System.out.println("Lilypad already planted here");
+                throw new IllegalArgumentException("Cannot place any plant except Lilypad on water tile without lilypad.");
             }
-        } else if (isLilyPlanted()) {
-            if (getPlant() != null && getPlant().getName().equals("Lilypad")) {
-                plant.setHealth(plant.getHealth() + getPlant().getHealth());  // hp nya digabung dulu
-                super.placePlant(plant);  // replace lilypad jd plant dengan hp yg ditambah lilypad
+            if (getPlant() != null && !getPlant().getName().equals("Lilypad")) {
+                throw new IllegalArgumentException("Another plant is already planted on top of this lilypad");
             }
-
-        } else System.out.println("Cannot place any plant except lilypad on water tile without lilypad");
-        
-    }
-
-    public void removePlant() {
-        if (getPlant() != null && getPlant().getName().equals("Lilypad")) {
-            setLilyPlanted(false);
+             plant.setHealth(plant.getHealth() + getPlant().getHealth()); //gabung hp plant yg diplant sama lilypad
+             removePlant(); //remove si lilypad (kayanya ga perlu(?))
+             super.placePlant(plant); // plant si plant yg emg mau diplant
         }
-        super.removePlant();
     }
+    
+
+    
+    
+    @Override
+    public void removePlant() {
+        if (hasPlant()) {
+            boolean wasLilypad = getPlant().getName().equals("Lilypad");
+            plant = null;  
+    
+            if (!wasLilypad) { //ngedig plant di atas lilypad, bukan si lilypadny
+                Plant lilypad = PlantFactory.createPlant("Lilypad");
+                placePlant(lilypad);
+                setLilyPlanted(true);
+            } else { //ngedig lilypad
+                setLilyPlanted(false); //cuma perlu ganti atribut boolean karena di atas ud diremove
+            }
+        } else {
+            throw new IllegalArgumentException("There's no plant to be removed");
+        }
+    }
+
+    public void removeAll() {
+        plant = null;
+    }
+    
 }
