@@ -10,7 +10,6 @@ public class GameMenu {
     }
 
     public void showMenu() throws InterruptedException {
-        while (true) {
             String yellow = "\033[33m";
             String reset = "\033[0m";
 
@@ -115,6 +114,8 @@ public class GameMenu {
             printSlowly(asciiArt3, 1);
             printSlowly(asciiArt4, 1);
             printSlowly(asciiArt5, 1);
+            
+            while (true) {
             System.out.println("\nMain Menu:");
             System.out.println("1. Start");
             System.out.println("2. Help");
