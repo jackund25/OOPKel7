@@ -178,14 +178,14 @@ public class GameMenu {
             String chc = scanner.nextLine();
                 switch (chc) {
                     case "1":
-                        petunjukUmum();
+                        instructions();
                         break;
                     case "2":
                         command();
                         break;
                 }
     }
-    private void petunjukUmum() {
+    private void instructions() {
         //Arahan bermain
         System.out.println("");
         String asciiArtPU = 
