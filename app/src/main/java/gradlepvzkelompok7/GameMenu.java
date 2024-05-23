@@ -14,123 +14,121 @@ public class GameMenu {
     }
 
     public void showMenu() throws InterruptedException {
-            String yellow = "\033[33m";
-            String reset = "\033[0m";
+        String yellow = "\033[33m";
+        String reset = "\033[0m";
 
         String asciiArt = yellow +
-                    "       __        __   _                            _         \n" +
-                    "       \\ \\      / /__| | ___ ___  _ __ ___   ___  | |_ ___   \n" +
-                    "        \\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ | __/ _ \\  \n" +
-                    "         \\ V  V /  __/ | (_| (_) | | | | | |  __/ | || (_) | \n" +
-                    "          \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|  \\__\\___/  \n" +
-                    "                                                              \n" +
-                    reset;
+                "       __        __   _                            _         \n" +
+                "       \\ \\      / /__| | ___ ___  _ __ ___   ___  | |_ ___   \n" +
+                "        \\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\ | __/ _ \\  \n" +
+                "         \\ V  V /  __/ | (_| (_) | | | | | |  __/ | || (_) | \n" +
+                "          \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|  \\__\\___/  \n" +
+                "                                                              \n" +
+                reset;
+        String asciiArt1 =
+        "   .___  ___.  __    ______  __    __       ___       _______  __             \n" +
+        "   |   \\/   | |  |  /      ||  |  |  |     /   \\     |   ____||  |            \n" +
+        "   |  \\  /  | |  | |  ,----'|  |__|  |    /  ^  \\    |  |__   |  |            \n" +
+        "   |  |\\/|  | |  | |  |     |   __   |   /  /_\\  \\   |   __|  |  |            \n" +
+        "   |  |  |  | |  | |  `----.|  |  |  |  /  _____  \\  |  |____ |  `----.       \n" +
+        "   |__|  |__| |__|  \\______||__|  |__| /__/     \\__\\ |_______||_______|       \n" +
+        reset;
 
-            String lightGray = "\033[37m";
-            String asciiArt1 = lightGray +
-            "   .___  ___.  __    ______  __    __       ___       _______  __             \n" +
-            "   |   \\/   | |  |  /      ||  |  |  |     /   \\     |   ____||  |            \n" +
-            "   |  \\  /  | |  | |  ,----'|  |__|  |    /  ^  \\    |  |__   |  |            \n" +
-            "   |  |\\/|  | |  | |  |     |   __   |   /  /_\\  \\   |   __|  |  |            \n" +
-            "   |  |  |  | |  | |  `----.|  |  |  |  /  _____  \\  |  |____ |  `----.       \n" +
-            "   |__|  |__| |__|  \\______||__|  |__| /__/     \\__\\ |_______||_______|       \n" +
-            reset;
+        String asciiArt2 =
+                "                                          \n" +
+                "                           __   _____    \n" +
+                "                           \\ \\ / / __|   \n" +
+                "                            \\ V /\\__ \\_  \n" +
+                "                             \\_/ |___(_) \n" +
+                "                                          \n" +
+                reset;
 
-            String asciiArt2 = yellow +
-                    "                                          \n" +
-                    "                           __   _____    \n" +
-                    "                           \\ \\ / / __|   \n" +
-                    "                            \\ V /\\__ \\_  \n" +
-                    "                             \\_/ |___(_) \n" +
-                    "                                          \n" +
-                    reset;
+        String lightGreen = "\033[92m";
+        String asciiArt3 =
+        "    __          ___       __          ___      .______      ___      .__   __.\n" +
+        "   |  |        /   \\     |  |        /   \\     |   _  \\    /   \\     |  \\ |  |\n" +
+        "   |  |       /  ^  \\    |  |       /  ^  \\    |  |_)  |  /  ^  \\    |   \\|  |\n" +
+        "   |  |      /  /_\\  \\   |  |      /  /_\\  \\   |   ___/  /  /_\\  \\   |  . `  |\n" +
+        "   |  `----./  _____  \\  |  `----./  _____  \\  |  |     /  _____  \\  |  |\\   |\n" +
+        "   |_______/__/     \\__\\ |_______/__/     \\__\\ | _|    /__/     \\__\\ |__| \\__|\n" +
+        reset;
 
-            String lightGreen = "\033[92m";
-            String asciiArt3 = lightGreen +
-            "    __          ___        __           ___      .______      ___      .__   __.\n" +
-            "   |  |        /   \\     |  |        /   \\     |   _  \\    /   \\     |  \\ |  |\n" +
-            "   |  |       /  ^  \\    |  |       /  ^  \\    |  |_)  |  /  ^  \\    |   \\|  |\n" +
-            "   |  |      /  /_\\  \\  |  |      /  /_\\  \\  |   ___/  /  /_\\  \\   |  . `  |\n" +
-            "   |  `----./  _____  \\  |  `----./  _____  \\  |  |     /  _____  \\  |  |\\   |\n" +
-            "   |_______/__/     \\__\\ |_______/__/     \\__\\ | _|  /__/     \\__\\ |__| \\__|\n" +
-            reset;
+        String asciiArt4 = yellow +
+        "                      ____                      \n" +
+        "                     / ___| __ _ _ __ ___   ___ \n" +
+        "                    | |  _ / _` | '_ ` _ \\ / _ \\\n" +
+        "                    | |_| | (_| | | | | | |  __/\n" +
+        "                     \\____|\\__,_|_| |_| |_|\\___|\n" +
+        "                                                \n" +
+        reset;
 
-            String asciiArt4 = yellow +
-            "                      ____                      \n" +
-            "                     / ___| __ _ _ __ ___   ___ \n" +
-            "                    | |  _ / _` | '_ ` _ \\ / _ \\\n" +
-            "                    | |_| | (_| | | | | | |  __/\n" +
-            "                     \\____|\\__,_|_| |_| |_|\\___|\n" +
-            "                                                \n" +
-            reset;
+        String asciiArt5 = lightGreen +
+                "                                                                            .=*###*-      \n" +
+                "                                    :-=+**********+=-:                     +%*===-=*%-    \n" +
+                "                               :=*##*+==---------==++*##*=:              :#*--==-=-==#*   \n" +
+                "                            -*#*+-----------------------=+*#*-         -*#=--====*##+=#*  \n" +
+                "                         .+%*=------------------------------=*#+----=*#**:---===%%%%%*=%= \n" +
+                "                        +%+-:....::------------------------=:*%%*------- :---==+%%%%%%%#=%-\n" +
+                "      .-=++***++=:    -%*-:.    .:------------------------=:*%%*------- :---==+%%%%%%%#=%-\n" +
+                "    =***++++==+**##= *%+--.    .:----------------+*#%#+---=#%%%#------: ---==-#%%%%%%%#=#+\n" +
+                "  =#+==++++++*****+#%#=---:::::-----------------+-  *%%#---=*##=------:.---===%%%%%%%%#+##\n" +
+                " **====+++++++++**##%=--------------------------+#+*%%%%=-------------::---===%%%%%%%%#+*#\n" +
+                "=#-======+++++++++*%*---------------------------=*%%%%%#=--------------:-----=%%%%%%%%#+##\n" +
+                "#**##%##*+=+++++++#%+-----------------------------+*##*=------------------===-%%%%%%%%#=#*\n" +
+                "+%#*%=  :=*#****#+=%===---------------------------------------------------+===*%%%%%%%#=%-\n" +
+                " *###        ...   %+====---------------------------------------------===-+====%%%%%%#+*%\n" +
+                "  :=+              *#-======---------------------------------------=====*====--+%%%%%*=%=\n" +
+                "                   .%+=========--------------------------------=========+%=+===-=###+=#*\n" +
+                "                    -%+=============-----------------------==========++***%*++=-=--==##   \n" +
+                "                     -%*======================---=================*##+=--=+#%*++===*%+    \n" +
+                "                      .*%+======================================*%+.        :+####*=.     \n" +
+                "                        :*#+==================================*%*.                        \n" +
+                "                          :+%#+============================+##+.                          \n" +
+                "                             -+##*++==================+**##+:                             \n" +
+                "                                .-+*%##***++++++***###*=-.                                \n" +
+                "                                     *#*###########-                                      \n" +
+                "                                      :*#*****###-                                        \n" +
+                "                                        =+*******                                         \n" +
+                "                                         +=++++*+                                         \n" +
+                "                                          *=+++*+                                         \n" +
+                "                                          -+=++**                                         \n" +
+                "                              .:-======-   +=++*#    :-=+*******+=                        \n" +
+                "                           .=#*==+++++++#*=-+=+*#-.=+++++++++***##=======--.              \n" +
+                "                          .#*#+++++++++++++*#==+*##*+++++++++#**++++++++++++*+:           \n" +
+                "                           *#-*==++++++++++++*=+*#+++++++++**++++++++++++++++++*:         \n" +
+                "                            .:**==++++++++++***=+**++++++**+*++++++++++++++++++=#:        \n" +
+                "                             .**+++++++****+++**++***+++#*++=++++++++++++++++++==#        \n" +
+                "                         -=+++=============++*+*#++*#++#*+=+++++++++++===========*=       \n" +
+                "                      .=+================+++++++**+***#*=++++++++++++============+*       \n" +
+                "                     -*+============================++*+++++++++++=======+++++===++       \n" +
+                "                     -*+=============================++*==============+*=.   .=+=*-       \n" +
+                "                     +===============================++*=============*=        +=*        \n" +
+                "                    -+===============================++#===========+*.     :   **.        \n" +
+                "                    =================================+*=*===+====++:       :==+-          \n" +
+                "                    :+====+=-----=+++=============+=+*-  -++*#++=.                        \n" +
+                "                     =+=+*          :-+++++======***=.     .--                            \n" +
+                reset;
 
-            String asciiArt5 = lightGreen +
-                    "                                                                            .=*###*-      \n" +
-                    "                                    :-=+**********+=-:                     +%*===-=*%-    \n" +
-                    "                               :=*##*+==---------==++*##*=:              :#*--==-=-==#*   \n" +
-                    "                            -*#*+-----------------------=+*#*-         -*#=--====*##+=#*  \n" +
-                    "                         .+%*=------------------------------=*#+----=*#**:---===%%%%%*=%= \n" +
-                    "                        +%+-:....::------------------------=:*%%*------- :---==+%%%%%%%#=%-\n" +
-                    "      .-=++***++=:    -%*-:.    .:------------------------=:*%%*------- :---==+%%%%%%%#=%-\n" +
-                    "    =***++++==+**##= *%+--.    .:----------------+*#%#+---=#%%%#------: ---==-#%%%%%%%#=#+\n" +
-                    "  =#+==++++++*****+#%#=---:::::-----------------+-  *%%#---=*##=------:.---===%%%%%%%%#+##\n" +
-                    " **====+++++++++**##%=--------------------------+#+*%%%%=-------------::---===%%%%%%%%#+*#\n" +
-                    "=#-======+++++++++*%*---------------------------=*%%%%%#=--------------:-----=%%%%%%%%#+##\n" +
-                    "#**##%##*+=+++++++#%+-----------------------------+*##*=------------------===-%%%%%%%%#=#*\n" +
-                    "+%#*%=  :=*#****#+=%===---------------------------------------------------+===*%%%%%%%#=%-\n" +
-                    " *###        ...   %+====---------------------------------------------===-+====%%%%%%#+*%\n" +
-                    "  :=+              *#-======---------------------------------------=====*====--+%%%%%*=%=\n" +
-                    "                   .%+=========--------------------------------=========+%=+===-=###+=#*\n" +
-                    "                    -%+=============-----------------------==========++***%*++=-=--==##   \n" +
-                    "                     -%*======================---=================*##+=--=+#%*++===*%+    \n" +
-                    "                      .*%+======================================*%+.        :+####*=.     \n" +
-                    "                        :*#+==================================*%*.                        \n" +
-                    "                          :+%#+============================+##+.                          \n" +
-                    "                             -+##*++==================+**##+:                             \n" +
-                    "                                .-+*%##***++++++***###*=-.                                \n" +
-                    "                                     *#*###########-                                      \n" +
-                    "                                      :*#*****###-                                        \n" +
-                    "                                        =+*******                                         \n" +
-                    "                                         +=++++*+                                         \n" +
-                    "                                          *=+++*+                                         \n" +
-                    "                                          -+=++**                                         \n" +
-                    "                              .:-======-   +=++*#    :-=+*******+=                        \n" +
-                    "                           .=#*==+++++++#*=-+=+*#-.=+++++++++***##=======--.              \n" +
-                    "                          .#*#+++++++++++++*#==+*##*+++++++++#**++++++++++++*+:           \n" +
-                    "                           *#-*==++++++++++++*=+*#+++++++++**++++++++++++++++++*:         \n" +
-                    "                            .:**==++++++++++***=+**++++++**+*++++++++++++++++++=#:        \n" +
-                    "                             .**+++++++****+++**++***+++#*++=++++++++++++++++++==#        \n" +
-                    "                         -=+++=============++*+*#++*#++#*+=+++++++++++===========*=       \n" +
-                    "                      .=+================+++++++**+***#*=++++++++++++============+*       \n" +
-                    "                     -*+============================++*+++++++++++=======+++++===++       \n" +
-                    "                     -*+=============================++*==============+*=.   .=+=*-       \n" +
-                    "                     +===============================++*=============*=        +=*        \n" +
-                    "                    -+===============================++#===========+*.     :   **.        \n" +
-                    "                    =================================+*=*===+====++:       :==+-          \n" +
-                    "                    :+====+=-----=+++=============+=+*-  -++*#++=.                        \n" +
-                    "                     =+=+*          :-+++++======***=.     .--                            \n" +
-                    reset;
+        // Print the ASCII art slowly
+        printSlowly(asciiArt, 1);
+        printSlowly(asciiArt1, 1);
+        printSlowly(asciiArt2, 1);
+        printSlowly(asciiArt3, 1);
+        printSlowly(asciiArt4, 1);
+        printSlowly(asciiArt5, 1);
 
-            // Print the ASCII art slowly
-            printSlowly(asciiArt, 1);
-            printSlowly(asciiArt1, 1);
-            printSlowly(asciiArt2, 1);
-            printSlowly(asciiArt3, 1);
-            printSlowly(asciiArt4, 1);
-            printSlowly(asciiArt5, 1);
-
-            System.out.println("");
-            String[] words = {GREEN + "\nWelcome to the World of Michael vs Lalapan", GREEN + "In a time when the world is at its most peaceful, suddenly " + RED + "a group of zombies" + GREEN + " attacks your backyard.", GREEN + "You must survive the onslaught of " + RED + "zombies" + GREEN + " attacking your backyard.", GREEN + "Therefore, the main objective of this game is to defeat " + RED + "the zombies" + GREEN + " who are trying to eat your brains by harnessing the power of Lalapan.\n" + RESET};
-            int interval = 1500; // Interval waktu dalam milidetik (1.5 detik)
-        
-            for (String word : words) {
-                System.out.println(word);
-                try {
-                    Thread.sleep(interval);
-                } catch (InterruptedException e) {
-                    System.err.println("Thread interrupted: " + e.getMessage());
-                }
+        System.out.println("");
+        String[] words = {GREEN + "\nWelcome to the World of Michael vs Lalapan", GREEN + "In a time when the world is at its most peaceful, suddenly " + RED + "a group of zombies" + GREEN + " attacks your backyard.", GREEN + "You must survive the onslaught of " + RED + "zombies" + GREEN + " attacking your backyard.", GREEN + "Therefore, the main objective of this game is to defeat " + RED + "the zombies" + GREEN + " who are trying to eat your brains by harnessing the power of Lalapan.\n" + RESET};
+        int interval = 1500; // Interval waktu dalam milidetik (1.5 detik)
+    
+        for (String word : words) {
+            System.out.println(word);
+            try {
+                Thread.sleep(interval);
+            } catch (InterruptedException e) {
+                System.err.println("Thread interrupted: " + e.getMessage());
             }
+        }
 
         while (true) {
             System.out.println("\nMain Menu:");
@@ -243,16 +241,60 @@ public class GameMenu {
         System.out.println("");
     }
 
-    private void showPlantsList() {
-        System.out.println("Plants List:");
+    private void showPlantsList() throws InterruptedException {
+        String reset = "\033[0m";
+        String lightGreen = "\033[92m";
+        // ANSI escape codes for bold and italic text
+        String bold = "\033[1m";
+        String italic = "\033[3m";
+        // Combining bold and italic for the "Plants List:" heading
+        String boldItalic = "\033[1;3m";
+
+        System.out.println(boldItalic + "Our Available Plants!");
+        String asciiArt = lightGreen +
+            "  ____  _             _     _     _     _   \n"
+            + " |  _ \\| | __ _ _ __ | |_  | |   (_)___| |_ \n"
+            + " | |_) | |/ _` | '_ \\| __| | |   | / __| __|\n"
+            + " |  __/| | (_| | | | | |_  | |___| \\__ \\ |_ \n"
+            + " |_|   |_|\\__,_|_| |_|\\__| |_____|_|___/\\__|\n"
+            + "                                            ";
+
+        // Print the ASCII art in light green
+        printSlowly(asciiArt, 1);
+        System.out.println(boldItalic + "Plants List:" + reset);
+        System.out.println(bold + "Sunflower: " + reset + italic + "Generates sun, which is essential for planting other plants." + reset);
+        System.out.println(bold + "Peashooter: " + reset + italic + "Fires peas at zombies to deal damage." + reset);
+        System.out.println(bold + "Repeater: " + reset + italic + "Shoots two peas at a time for increased damage." + reset);
+        System.out.println(bold + "Snowpea: " + reset + italic + "Fires frozen peas that slow down zombies." + reset);
+        System.out.println(bold + "Jalapeno: " + reset + italic + "Explodes to destroy all zombies in a single row." + reset);
+        System.out.println(bold + "Squash: " + reset + italic + "Smashes the first zombie it encounters." + reset);
+        System.out.println(bold + "Tangle Kelp: " + reset + italic + "Pulls the first zombie that steps into the water down to the depths, instantly vanishing it." + reset);
+        System.out.println(bold + "Chomper: " + reset + italic + "Devours zombies whole but takes time to chew." + reset);
+        System.out.println(bold + "Wallnut: " + reset + italic + "Provides a sturdy defense to block zombies." + reset);
+        System.out.println(bold + "Lilypad: " + reset + italic + "Allows plants to be placed on water." + reset);
     }
 
     private void showZombiesList() {
         System.out.println("Zombies List:");
     }
 
-    private void exitGame() {
-        System.out.println("Exiting the game...");
+    private void exitGame() throws InterruptedException {
+        // Combining bold and italic for the "Plants List:" heading
+        String boldItalic = "\033[1;3m";
+        System.out.println(boldItalic + "Exiting the game...");
+        // ANSI escape code to reset text formatting
+        String reset = "\033[0m";
+
+        String asciiArt = 
+              "   ____                         ___                 \n"
+            + "  / ___| __ _ _ __ ___   ___   / _ \\__   _____ _ __ \n"
+            + " | |  _ / _` | '_ ` _ \\ / _ \\ | | | \\ \\ / / _ \\ '__|\n"
+            + " | |_| | (_| | | | | | |  __/ | |_| |\\ V /  __/ |   \n"
+            + "  \\____|\\__,_|_| |_| |_|\\___|  \\___/  \\_/ \\___|_|   \n"
+            + "                                                    " 
+            + reset;
+        printSlowly(asciiArt,10);
+        System.out.println(boldItalic + "See you in the NEXT GAME!");
         scanner.close();
     }
 
