@@ -22,7 +22,7 @@ Game yang diminta Asisten untuk Tugas Besar IF2212. Rawarwrarawara, I eat your b
    "cd <lokasi directory>/OOPKel7"
 3. Jalankan program dengan command berikut
    ".\gradlew build"
-   ".\gradlew run"
+   ".\gradlew -q --console plain run"
 
 #### Alternatif 2
 

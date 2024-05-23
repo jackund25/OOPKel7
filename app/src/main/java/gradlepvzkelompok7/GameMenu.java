@@ -275,7 +275,23 @@ public class GameMenu {
     }
 
     private void showZombiesList() {
-        System.out.println("Zombies List:");
+        String reset = "\033[0m";
+        String lightGreen = "\033[92m";
+        // ANSI escape codes for bold and italic text
+        String bold = "\033[1m";
+        String italic = "\033[3m";
+        String boldItalic = "\033[1;3m";
+        System.out.println(boldItalic + "Zombies List:" + reset);
+        System.out.println(bold + "Normal Zombie: " + reset + italic + "Just a regular zombie..." + reset);
+        System.out.println(bold + "Conehead Zombie: " + reset + italic + "A regular zombie with a bit more health." + reset);
+        System.out.println(bold + "Buckethead Zombie: " + reset + italic + "A regular zombie with a LOT of health." + reset);
+        System.out.println(bold + "Football Zombie: " + reset + italic + "A regular zombie with a TON of health." + reset);
+        System.out.println(bold + "Newspaper Zombie: " + reset + italic + "A zombie enjoying a newspaper. Don't destroy it or he'll get angry." + reset);
+        System.out.println(bold + "Jack-In-A-Box Zombie: " + reset + italic + "Will explode upon the first sight of a lalapan." + reset);
+        System.out.println(bold + "Gargantuar Zombie: " + reset + italic + "A slow-attacking zombie with an ability to throw a javelin when its HP is low." + reset);
+        System.out.println(bold + "Pole Vaulting Zombie: " + reset + italic + "Jumps over the first lalapan and killing the plant on it's landing site" + reset);
+        System.out.println(bold + "Duckytube Zombie: " + reset + italic + "Just a regular zombie with a floaty..." + reset);
+        System.out.println(bold + "Dolphin Rider Zombie: " + reset + italic + "The water version of Pole Vaulting Zombie." + reset);
     }
 
     private void exitGame() throws InterruptedException {
