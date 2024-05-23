@@ -20,7 +20,7 @@ public class PlantFactory {
                 return new Jalapeno();
             case "sunflower":
                 return new Sunflower();
-            case "wallnut":
+            case "wall nut":
                 return new Wallnut();
             case "squash":
                 return new Squash();

@@ -247,8 +247,12 @@ public class GameLoop {
     }
 
     private void handleGameOver() {
-        System.out.println("GAME OVER");
-        System.exit(0);
+        if (gameMap.gameWin()){
+            System.out.println("You win, no zombies left on the map.");
+            return;
+        }
+        System.out.println("A zombie reached your end tile, game is over.");
+
     }
 
     public static void main(String[] args) {

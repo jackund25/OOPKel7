@@ -18,6 +18,7 @@ public class GameMap {
     private int availableSun = 50;
     private int dayCount = 1;
     private boolean gameOver = false;
+    private boolean gameWin = false;
 
     public GameMap(int width,int height) {
         tiles = new Tile[height][width];
@@ -67,7 +68,9 @@ public class GameMap {
         removeDeadEntities();
         if (reachedEndTile() || (gameTime > 30 && currentZombieCount == 0)){
             gameOver = true;
-            
+            if (currentZombieCount ==0){
+                gameWin = true;
+            }
         }
     }
 
@@ -116,7 +119,7 @@ public class GameMap {
     
                 // zombie yang uda dimasukin ke arraylist baru digerakin
                 for (Zombie zombie : zombiesToMove) {
-                    System.out.println("Moving zombie from (" + i + ", " + j + ") to (" + i + ", " + (j-1) + ")");
+                    System.out.println("Moving " + zombie.getName() +" from (" + i + ", " + j + ") to (" + i + ", " + (j-1) + ")");
                     currentTile.removeZombie(zombie);
                     leftTile.placeZombie(zombie);
     
@@ -391,6 +394,10 @@ public class GameMap {
 
     public boolean gameOver(){
         return gameOver;
+    }
+
+    public boolean gameWin(){
+        return gameWin;
     }
 
 }
