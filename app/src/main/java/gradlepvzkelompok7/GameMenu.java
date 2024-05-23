@@ -259,7 +259,6 @@ public class GameMenu {
             + " |_|   |_|\\__,_|_| |_|\\__| |_____|_|___/\\__|\n"
             + "                                            ";
 
-        // Print the ASCII art in light green
         printSlowly(asciiArt, 1);
         System.out.println(boldItalic + "Plants List:" + reset);
         System.out.println(bold + "Sunflower: " + reset + italic + "Generates sun, which is essential for planting other plants." + reset);
@@ -274,10 +273,21 @@ public class GameMenu {
         System.out.println(bold + "Lilypad: " + reset + italic + "Allows plants to be placed on water." + reset);
     }
 
-    private void showZombiesList() {
+    private void showZombiesList() throws InterruptedException{
+        // ANSI escape code to reset text formatting
         String reset = "\033[0m";
-        String lightGreen = "\033[92m";
-        // ANSI escape codes for bold and italic text
+        // ANSI escape codes for blue text
+        String blue = "\033[94m";
+
+        String asciiArt = blue +
+              "  _____               _     _        _     _     _   \n" +
+              " |__  /___  _ __ ___ | |__ (_) ___  | |   (_)___| |_ \n" +
+              "   / // _ \\| '_ ` _ \\| '_ \\| |/ _ \\ | |   | / __| __|\n" +
+              "  / /| (_) | | | | | | |_) | |  __/ | |___| \\__ \\ |_ \n" +
+              " /____\\___/|_| |_| |_|_.__/|_|\\___| |_____|_|___/\\__|\n" +
+              "                                                     " + 
+              reset;
+        printSlowly(asciiArt, 1);
         String bold = "\033[1m";
         String italic = "\033[3m";
         String boldItalic = "\033[1;3m";
