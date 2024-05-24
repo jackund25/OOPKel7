@@ -19,6 +19,6 @@ public class Sunflower extends Plant {
     }
 
     private void generateSun() {
-        System.out.println(getName() + " generated sun at position.");
+        //System.out.println(getName() + " generated sun at position.");
     }
 }

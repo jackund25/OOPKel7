@@ -24,7 +24,7 @@ public class InventoryDeck {
     public static List<Plant> initializeInventory() {
         List<Plant> availablePlants = new ArrayList<>();
         String[] plantTypes = {
-            "Sunflower",  "Peashooter", "Snowpea", "Repeater", "Wallnut", "Chomper", "Jalapeno", 
+            "Sunflower",  "Peashooter", "Snowpea", "Repeater", "Wall nut", "Chomper", "Jalapeno", 
             "Squash", "Lilypad", "TangleKelp"
         };
         
@@ -73,7 +73,6 @@ public class InventoryDeck {
 
     public void dig(int x,int y) throws Exception{
         try {
-            
             gameMap.getTile(x, y).removePlant();
             System.out.println("Plant removed from "+ y + ", "+ x);
         } 

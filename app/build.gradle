@@ -17,11 +17,11 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
+// java {
+//     toolchain {
+//         languageVersion = JavaLanguageVersion.of(21)
+//     }
+// }
 
 tasks.named('test') {
     useJUnitPlatform()
@@ -32,5 +32,5 @@ tasks.named('run', JavaExec) {
     standardInput = System.in // Redirects standard input to allow user input
 }
 
-sourceCompatibility = '21'
-targetCompatibility = '21'
+// sourceCompatibility = '21'
+// targetCompatibility = '21'

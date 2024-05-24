@@ -16,9 +16,9 @@ public class Zombie extends Creature {
     public void zombieAttack(Creature target) {
         long currentTime = System.currentTimeMillis();
         if (canAttack()) {
-            System.out.println("plant initial health = " + target.getHealth());
+            //System.out.println("plant initial health = " + target.getHealth());
             target.takeDamage(attackDamage);
-            System.out.println(target.getName() + " taken damage " + attackDamage + ", " +target.getName() + " hp is now " + target.getHealth());
+            //System.out.println(target.getName() + " taken damage " + attackDamage + ", " +target.getName() + " hp is now " + target.getHealth());
             nextAttackTime = currentTime +(long) ((isSlowed ? attackSpeed * 1.5 : attackSpeed) * 1000);  // reset att time
         }
     }
@@ -59,13 +59,13 @@ public class Zombie extends Creature {
     }
 
     public void takeDamage(int damage) {
-        System.out.println("Before damage: Zombie health = " + health);
+        //System.out.println("Before damage: Zombie health = " + health);
         health -= damage;
-        System.out.println("After damage: Zombie health = " + health);
+        //System.out.println("After damage: Zombie health = " + health);
 
-        if (health <= 0) {
-            System.out.println("Zombie has died.");
-        }
+        // if (health <= 0) {
+        //     System.out.println("Zombie has died.");
+        // }
     }
     
 }

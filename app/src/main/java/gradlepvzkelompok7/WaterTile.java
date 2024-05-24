@@ -46,7 +46,7 @@ public class WaterTile extends Tile {
     public void removePlant() {
         if (hasPlant()) {
             boolean wasLilypad = getPlant().getName().equals("Lilypad");
-            plant = null;  
+            plant = null; //ngeremove litereli plant ato lilypad ttp aja awalnya diremove plantnya
     
             if (!wasLilypad) { //ngedig plant di atas lilypad, bukan si lilypadny
                 Plant lilypad = PlantFactory.createPlant("Lilypad");

@@ -45,23 +45,8 @@ public class GameMap {
         return null;
     }
 
-    public void canPlacePlant(Plant plant, int sunCost, int x, int y) throws IllegalArgumentException {
-        if (availableSun < sunCost) {
-            throw new IllegalArgumentException("Insufficient sun");
-        }
-    
-        Tile targetTile = tiles[x][y];
-        try {
-            targetTile.placePlant(plant); 
-            availableSun -= sunCost; 
-        } catch (Exception ex) {
-            // rethrow exceiption
-            throw ex;
-        }
-    }
 
     public void updateGame() {
-
         updateTiles();
         updatePlantActions();
         updateZombieAttacks();
@@ -82,24 +67,23 @@ public class GameMap {
             for (int j = width - 1; j > 0; j--) {
                 Tile currentTile = tiles[i][j];
                 Tile leftTile = tiles[i][j - 1];
-                List<Zombie> zombiesToMove = new ArrayList<>();
+                List<Zombie> zombiesToMove = new ArrayList<>(); 
                 // cek zombie di tile yang ada tile[i][j] yang lagi ada di tahap loop
                 for (Zombie zombie : new ArrayList<>(currentTile.getZombies())) { //pake new arraylist<> buat ngecopy isinya biar ga langsung ngemodifikasi si tilesnya 
                     if (zombie.canMove(currentTime)) {
                         // logic buat zombie yang bisa jump
                         if (zombie instanceof Jumping && !((Jumping) zombie).hasJumped() && leftTile.hasPlant() ) {
-                            if (j - 2 >= 0) {
+                            if (j - 2 >= 0) { //pastiin ga keluar map
                                 Tile landingTile = tiles[i][j - 2];
                                 Plant targetPlant = landingTile.getPlant();
                                 landingTile.placeZombie(zombie);
                                 currentTile.removeZombie(zombie);
                                 System.out.println(zombie + "landed on " + i + "," + (j-2) + "and killed plant on " + i + "," + (j-2));
                                 if (landingTile instanceof WaterTile) {
-                                    ((WaterTile)landingTile).setLilyPlanted(false);
-                                    
+                                    ((WaterTile)landingTile).setLilyPlanted(false); 
                                 }
                                 ((Jumping) zombie).setHasJumped(true);
-                                zombie.updateNextMoveTime(currentTime); //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
+                                zombie.updateNextMoveTime(currentTime); //rubah nextmove timeny nya biar zombie ga gerak 2 kali dalam loop yang sama
                                 if (targetPlant != null) {
                                     targetPlant.takeDamage(targetPlant.getHealth()); // plant yang dilompatin mati
                                     landingTile.removePlant();
@@ -107,7 +91,7 @@ public class GameMap {
                             }
                         }
 
-                        // Normal movement: kalo ga ada plant di tile yang sama ama zombie gerakin ke kiri
+                        // normal movement: kalo ga ada plant di tile yang sama ama zombie gerakin ke kiri
                         else if (!currentTile.hasPlant()) {
                             zombiesToMove.add(zombie);
                             zombie.updateNextMoveTime(currentTime);} //rubah state hasmoved nya biar zombie ga gerak 2 kali dalam loop yang sama
@@ -119,7 +103,7 @@ public class GameMap {
     
                 // zombie yang uda dimasukin ke arraylist baru digerakin
                 for (Zombie zombie : zombiesToMove) {
-                    System.out.println("Moving " + zombie.getName() +" from (" + i + ", " + j + ") to (" + i + ", " + (j-1) + ")");
+                    //System.out.println("Moving " + zombie.getName() +" from (" + i + ", " + j + ") to (" + i + ", " + (j-1) + ")");
                     currentTile.removeZombie(zombie);
                     leftTile.placeZombie(zombie);
     
@@ -148,15 +132,13 @@ public class GameMap {
                                     break;
                                 }
                             }
-                            if (!plantHit) {
-                                System.out.println("Javelin missed! No plant in the range.");
-                            }
+                            if (!plantHit) System.out.println("Javelin missed! No plant in the range.");
                         }
                     //attack zombie biasa
                     } else if (currentTile.hasPlant()) {
                         Plant plant = currentTile.getPlant();
                         if (!plant.isDead() && zombie.canAttack()) {
-                            System.out.println(zombie.getName() + " attacking plant at tile (" + i + ", " + j + ")");
+                            //System.out.println(zombie.getName() + " attacking plant at tile (" + i + ", " + j + ")");
                             zombie.zombieAttack(plant);
                         }
                     }
@@ -175,11 +157,12 @@ public class GameMap {
                     if (plant instanceof Sunflower) {
                         plant.plantAction(null); 
                         availableSun += 25;
-                        System.out.println("Sunflower at (" + i + ", " + j + ") generated sun!");
-                    } else if (plant instanceof Jalapeno) {
+                        //System.out.println("Sunflower at (" + i + ", " + j + ") generated sun!");
+                    } 
+                    else if (plant instanceof Jalapeno) {
                         List<Zombie> allZombiesInRow = getAllZombiesInRow(i);
                         plant.plantAction(allZombiesInRow);
-                        System.out.println("Jalapeno at (" + i + ", " + j + ") has exploded!");
+                        //System.out.println("Jalapeno at (" + i + ", " + j + ") has exploded!");
                     } else {
                         List<Zombie> targetZombies = getZombiesInRange(i, j, plant.getRange());
                         if (!targetZombies.isEmpty()) {
@@ -211,7 +194,7 @@ public class GameMap {
                     tiles[row][col].removeZombie((Zombie) entity);
                     removeZombieCount();
                 }
-                System.out.println(entity.getClass().getSimpleName() + " at tile (" + row + ", " + col + ") has died and been removed.");
+                //System.out.println(entity.getClass().getSimpleName() + " at tile (" + row + ", " + col + ") has died and been removed.");
             }
         }
     }
@@ -240,7 +223,8 @@ public class GameMap {
                     break;  
                 }
             }
-        } else {
+        } 
+        else {
             // cari tile sesuai sama attackrange si plant terkait
             for (int j = plantCol; j <= plantCol + range; j++) {
                 if (tiles[plantRow][j].hasZombie()) {
@@ -338,7 +322,7 @@ public class GameMap {
                             Zombie zombie = ZombieFactory.createZombie(zombieType);
                             spawnTile.placeZombie(zombie);
                             currentZombieCount++;
-                            System.out.println("Spawned " + zombie.getClass().getSimpleName() + " at row " + i);
+                            //System.out.println("Spawned " + zombie.getClass().getSimpleName() + " at row " + i);
                         }
                 }
             }

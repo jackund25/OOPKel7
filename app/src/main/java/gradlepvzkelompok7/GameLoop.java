@@ -250,9 +250,10 @@ public class GameLoop {
         String boldItalic = "\033[1;3m";
         if (gameMap.gameWin()){
             System.out.println(boldItalic + "You win, no zombies left on the map.");
-            return;
+            System.exit(0);
         }
         System.out.println(boldItalic + "A zombie reached your end tile, game is over.");
+        System.exit(0);
     }
 
     public static void main(String[] args) {
