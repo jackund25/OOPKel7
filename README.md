@@ -19,8 +19,6 @@ Setiap tanaman dan zombie memiliki aksi khusus masing-masing, dan **Anda harus m
 
 ### **Tahapan Kompilasi**
 
-#### Alternatif 1
-
 1. Lakukan clone repository dengan terminal menggunakan command berikut ""git clone https://github.com/jackund25/OOPKel7.git""
 2. Buka ke cmd atau terminal dan masuk ke directory clone
    "cd <lokasi directory>/OOPKel7"
@@ -28,8 +26,4 @@ Setiap tanaman dan zombie memiliki aksi khusus masing-masing, dan **Anda harus m
    ".\gradlew build"
    ".\gradlew -q --console plain run"
 
-#### Alternatif 2
 
-1. Lakukan clone repository dengan terminal menggunakan command berikut ""git clone https://github.com/jackund25/OOPKel7.git""
-2. Masuk ke directory clone menggunakan VSCode
-3. Jalankan program dengan pilih file Main.java lalu tekan "run"
