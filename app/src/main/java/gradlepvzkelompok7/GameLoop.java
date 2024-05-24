@@ -20,16 +20,16 @@ public class GameLoop {
 
     public void initializeGame() {
         inventoryDeck = new InventoryDeck(gameMap);
-        Zombie zombie1 = new NormalZombie();
-        Zombie zombie2 = new ConeheadZombie();
-        Plant peashooter1 = new Peashooter();
-        Plant peashooter2 = new Peashooter();
-        Plant repeater1 = new Repeater();
-        //gameMap.getTile(0, 10).placeZombie(zombie1);
-        //gameMap.getTile(1, 10).placeZombie(zombie2);
-        gameMap.getTile(0, 6).placePlant(peashooter1);
-        gameMap.getTile(1, 6).placePlant(peashooter2);
-        gameMap.getTile(0, 4).placePlant(repeater1);
+        // Zombie zombie1 = new NormalZombie();
+        // Zombie zombie2 = new ConeheadZombie();
+        // Plant peashooter1 = new Peashooter();
+        // Plant peashooter2 = new Peashooter();
+        // Plant repeater1 = new Repeater();
+        // //gameMap.getTile(0, 10).placeZombie(zombie1);
+        // //gameMap.getTile(1, 10).placeZombie(zombie2);
+        // gameMap.getTile(0, 6).placePlant(peashooter1);
+        // gameMap.getTile(1, 6).placePlant(peashooter2);
+        // gameMap.getTile(0, 4).placePlant(repeater1);
     }
 
     public void startGame() {
@@ -107,7 +107,7 @@ public class GameLoop {
         List<Integer> params = new ArrayList<>();
         String[] parts = userInput.split(" ");
         try {
-            for (int i = 1; i < parts.length; i++) {  // Start from 1 to skip the command word
+            for (int i = 1; i < parts.length; i++) {  // i nya dari 1 biar si command ga ikut ke dalam extraction
                 params.add(Integer.parseInt(parts[i]));
             }
         } catch (NumberFormatException e) {
@@ -213,23 +213,32 @@ public class GameLoop {
                         System.out.println("Enter two deck slots to swap:");
                         int slot1 = Integer.parseInt(scanner.nextLine()) - 1;
                         int slot2 = Integer.parseInt(scanner.nextLine()) - 1;
-                        inventoryDeck.swapDeckPlants(slot1, slot2);
-                        System.out.println("Plants swapped in deck.");
+                        if (((inventoryDeck.getDeck().get(slot1) != null)) && (inventoryDeck.getDeck().get(slot2) != null)) {
+                            inventoryDeck.swapDeckPlants(slot1, slot2);
+                            System.out.println(inventoryDeck.getDeck().get(slot1).getName() + " and " + inventoryDeck.getDeck().get(slot2).getName() + " swapped in deck.");
+                        } else System.out.println("One of the slot is empty, can't swap with an empty slot.");
                         break;
 
                     case "swap inventory":
                         System.out.println("Enter two inventory slots to swap:");
                         int invSlot1 = Integer.parseInt(scanner.nextLine()) - 1;
                         int invSlot2 = Integer.parseInt(scanner.nextLine()) - 1;
-                        inventoryDeck.swapInventoryPlants(invSlot1, invSlot2);
-                        System.out.println("Plants swapped in inventory.");
+                        if (((inventoryDeck.getDeck().get(invSlot1) != null)) && (inventoryDeck.getDeck().get(invSlot2) != null)) {
+                            inventoryDeck.swapInventoryPlants(invSlot1, invSlot2);
+                            System.out.println(inventoryDeck.getInventory().get(invSlot1).getName() + " and " + inventoryDeck.getInventory().get(invSlot2).getName() + " swapped in inventory.");
+                        } else System.out.println("One of the slot is empty, can't swap with an empty slot.");
                         break;
                     
                     case "remove":
                         System.out.println("Enter a deck slot to clear:");
                         int removeSlot = Integer.parseInt(scanner.nextLine()) - 1;
-                        inventoryDeck.removePlant(removeSlot);
-                        System.out.println("Plant removed from deck.");
+                        if (inventoryDeck.getDeck().get(removeSlot) != null) {
+                            String copyName = inventoryDeck.getDeck().get(removeSlot).getName();
+                            inventoryDeck.removePlant(removeSlot);
+                            System.out.println(copyName + " removed from deck.");
+                        } else {
+                            System.out.println("The slot is already empty.");
+                        }
                         break;
     
                     case "done":
@@ -240,9 +249,13 @@ public class GameLoop {
                         System.out.println("Invalid command. Please choose a valid action.");
                         break;
                 }
-            }catch (IllegalArgumentException e){
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Invalid number format.");
+            } catch (IllegalArgumentException e) {
                 System.out.println("Error: " + e.getMessage());
-            } 
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
         }
     }
 
