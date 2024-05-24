@@ -253,6 +253,18 @@ public class GameLoop {
             System.exit(0);
         }
         System.out.println(boldItalic + "A zombie reached your end tile, game is over.");
+        // ANSI escape code to reset text formatting
+        String reset = "\033[0m";
+
+        String asciiArt = 
+              "   ____                         ___                 \n"
+            + "  / ___| __ _ _ __ ___   ___   / _ \\__   _____ _ __ \n"
+            + " | |  _ / _` | '_ ` _ \\ / _ \\ | | | \\ \\ / / _ \\ '__|\n"
+            + " | |_| | (_| | | | | | |  __/ | |_| |\\ V /  __/ |   \n"
+            + "  \\____|\\__,_|_| |_| |_|\\___|  \\___/  \\_/ \\___|_|   \n"
+            + "                                                    " 
+            + reset;
+        System.out.println(asciiArt);
         System.exit(0);
     }
 
